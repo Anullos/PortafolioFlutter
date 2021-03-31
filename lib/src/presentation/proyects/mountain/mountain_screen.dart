@@ -12,24 +12,45 @@ class MountainScreen extends StatefulWidget {
 
 class _MountainScreenState extends State<MountainScreen> {
   int currentIndex = 0;
+  int index1 = 0;
+  bool adelante = false;
+  bool atras = false;
 
-  void changeMountain(DragEndDetails details) {
-    if (details.primaryVelocity < 0 && currentIndex < 2) {
-      setState(() {
-        currentIndex++;
-      });
-    } else if (details.primaryVelocity > 0 && currentIndex > 0) {
-      setState(() {
-        currentIndex--;
-      });
+  void changeMountain(DragUpdateDetails details) {
+    if (details.primaryDelta < 0 && currentIndex < 2) {
+      // setState(() {
+      //   currentIndex++;
+      // });
+      adelante = true;
+    } else if (details.primaryDelta > 0 && currentIndex > 0) {
+      // setState(() {
+      //   currentIndex--;
+      // });
+      atras = true;
     }
+    print(details.primaryDelta);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onHorizontalDragEnd: (DragEndDetails details) {
+        onHorizontalDragStart: (_) {
+          adelante = false;
+          atras = false;
+        },
+        onHorizontalDragEnd: (_) {
+          if (adelante) {
+            setState(() {
+              currentIndex++;
+            });
+          } else if (atras) {
+            setState(() {
+              currentIndex--;
+            });
+          }
+        },
+        onHorizontalDragUpdate: (DragUpdateDetails details) {
           changeMountain(details);
         },
         child: AnimatedContainer(
@@ -48,6 +69,7 @@ class _MountainScreenState extends State<MountainScreen> {
             children: List<Widget>.generate(Mountain.defaultList().length,
                 (int index) {
               final mountain = Mountain.defaultList()[index];
+              index1 = index;
               return MountainCard(
                 mountain: mountain,
                 index: index,
@@ -195,7 +217,7 @@ class MountainCard extends StatelessWidget {
                         duration: const Duration(milliseconds: 250),
                         opacity: currentIndex == index ? 1 : 0,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5,top: 20),
+                          padding: EdgeInsets.only(right: 5, top: 20),
                           child: TweenAnimationBuilder(
                             duration: const Duration(milliseconds: 300),
                             tween: escalaName(),
