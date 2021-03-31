@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_details.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_foto.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_model.dart';
 
@@ -31,33 +32,30 @@ class _MountainScreenState extends State<MountainScreen> {
         onHorizontalDragEnd: (DragEndDetails details) {
           changeMountain(details);
         },
-        child: SafeArea(
-          // background
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Mountain.defaultList()[currentIndex].colors[0],
-                  Mountain.defaultList()[currentIndex].colors[1],
-                ],
-              ),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Mountain.defaultList()[currentIndex].colors[0],
+                Mountain.defaultList()[currentIndex].colors[1],
+              ],
             ),
-            child: Stack(
-              children: List<Widget>.generate(Mountain.defaultList().length,
-                  (int index) {
-                final mountain = Mountain.defaultList()[index];
-                return MountainCard(
-                  mountain: mountain,
-                  index: index,
-                  buttonTag: 'boton_${mountain.name}',
-                  heroTag: 'hero_${mountain.name}',
-                  currentIndex: currentIndex,
-                );
-              }).reversed.toList(),
-            ),
+          ),
+          child: Stack(
+            children: List<Widget>.generate(Mountain.defaultList().length,
+                (int index) {
+              final mountain = Mountain.defaultList()[index];
+              return MountainCard(
+                mountain: mountain,
+                index: index,
+                buttonTag: 'boton_${mountain.name}',
+                heroTag: 'hero_${mountain.name}',
+                currentIndex: currentIndex,
+              );
+            }).reversed.toList(),
           ),
         ),
       ),
@@ -93,11 +91,11 @@ class MountainCard extends StatelessWidget {
 
   double posDotTop() {
     if (index == 0) {
-      return 510;
+      return 535;
     } else if (index == 1) {
-      return 240;
+      return 255;
     } else {
-      return 280;
+      return 305;
     }
   }
 
@@ -197,7 +195,7 @@ class MountainCard extends StatelessWidget {
                         duration: const Duration(milliseconds: 250),
                         opacity: currentIndex == index ? 1 : 0,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 5),
+                          padding: EdgeInsets.only(right: 5,top: 20),
                           child: TweenAnimationBuilder(
                             duration: const Duration(milliseconds: 300),
                             tween: escalaName(),
@@ -250,15 +248,18 @@ class MountainCard extends StatelessWidget {
           ),
           // boton mountain details
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             top: 200,
             right: currentIndex == index ? 0 : -500,
             child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               opacity: currentIndex == index ? 1 : 0,
               curve: Curves.easeInOut,
-              child: BotonMonte(tagboton: buttonTag),
+              child: BotonMonte(
+                tagboton: buttonTag,
+                mountain: mountain,
+              ),
             ),
           ),
         ],
@@ -302,7 +303,19 @@ class DetallesMonte extends StatelessWidget {
 
 class BotonMonte extends StatelessWidget {
   final String tagboton;
-  const BotonMonte({Key key, this.tagboton}) : super(key: key);
+  final Mountain mountain;
+  const BotonMonte({Key key, this.tagboton, this.mountain}) : super(key: key);
+
+  void nextPage2(BuildContext context, Mountain mountain) {
+    Navigator.of(context).push(PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 600),
+        pageBuilder: (context, animation, _) {
+          return FadeTransition(
+            opacity: animation,
+            child: MountainDetails(mountain: mountain),
+          );
+        }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +323,7 @@ class BotonMonte extends StatelessWidget {
       child: Container(
         height: 30,
         child: TextButton(
-          onPressed: () {},
+          onPressed: () => nextPage2(context, mountain),
           style: ButtonStyle(
               overlayColor: MaterialStateColor.resolveWith(
                   (states) => Colors.transparent),
@@ -325,16 +338,18 @@ class BotonMonte extends StatelessWidget {
             tag: tagboton,
             child: Material(
               color: Colors.transparent,
-              child: Row(children: [
-                Text('Information'.toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.8)),
-                SizedBox(width: 3),
-                Icon(Icons.monetization_on, color: Colors.white, size: 11)
-              ]),
+              child: Row(
+                children: [
+                  Text('Information'.toUpperCase(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.5)),
+                  SizedBox(width: 4),
+                  Icon(Icons.monetization_on, color: Colors.white, size: 11)
+                ],
+              ),
             ),
           ),
         ),
