@@ -12,27 +12,90 @@ class MountainScreen extends StatefulWidget {
 
 class _MountainScreenState extends State<MountainScreen> {
   int currentIndex = 0;
-  int index1 = 0;
   bool adelante = false;
   bool atras = false;
+  List<dynamic> cardProps = [];
 
   void changeMountain(DragUpdateDetails details) {
     if (details.primaryDelta < 0 && currentIndex < 2) {
-      // setState(() {
-      //   currentIndex++;
-      // });
       adelante = true;
     } else if (details.primaryDelta > 0 && currentIndex > 0) {
-      // setState(() {
-      //   currentIndex--;
-      // });
       atras = true;
     }
-    print(details.primaryDelta);
+  }
+
+  void setCardProps() {
+    Size screenSize = MediaQuery.of(context).size;
+
+    if (currentIndex == 0) {
+      cardProps = [
+        {
+          'top': screenSize.height * 0.35,
+          'left': -(screenSize.width * 0.65),
+          'leftDot': screenSize.width * 0.15,
+          'opacity': 1.0,
+        },
+        {
+          'top': screenSize.height * 0.38,
+          'left': screenSize.width * 0,
+          'leftDot': screenSize.width * 0.40,
+          'opacity': 0.4,
+        },
+        {
+          'top': screenSize.height * 0.41,
+          'left': screenSize.width * 0.25,
+          'leftDot': screenSize.width * 0.4,
+          'opacity': 0.1,
+        }
+      ];
+    } else if (currentIndex == 1) {
+      cardProps = [
+        {
+          'top': screenSize.height * 0.35,
+          'left': -(screenSize.width * 0.69),
+          'leftDot': (screenSize.width * 0.25),
+          'opacity': 0.0,
+        },
+        {
+          'top': screenSize.height * 0.38,
+          'left': -screenSize.width * 0.42,
+          'leftDot': screenSize.width * 0.20,
+          'opacity': 1.0,
+        },
+        {
+          'top': screenSize.height * 0.41,
+          'left': screenSize.width * 0.07,
+          'leftDot': screenSize.width * 0.4,
+          'opacity': 0.4,
+        }
+      ];
+    } else {
+      cardProps = [
+        {
+          'top': screenSize.height * 0.35,
+          'left': -(screenSize.width * 0.69),
+          'leftDot': -(screenSize.width * 0),
+          'opacity': 0.0,
+        },
+        {
+          'top': screenSize.height * 0.38,
+          'left': -screenSize.width * 0.45,
+          'leftDot': -(screenSize.width * 0.1),
+          'opacity': 0.0,
+        },
+        {
+          'top': screenSize.height * 0.41,
+          'left': -(screenSize.width * 0.25),
+          'leftDot': screenSize.width * 0.30,
+          'opacity': 1.0,
+        }
+      ];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    setCardProps();
     return Scaffold(
       body: GestureDetector(
         onHorizontalDragStart: (_) {
@@ -69,13 +132,13 @@ class _MountainScreenState extends State<MountainScreen> {
             children: List<Widget>.generate(Mountain.defaultList().length,
                 (int index) {
               final mountain = Mountain.defaultList()[index];
-              index1 = index;
               return MountainCard(
                 mountain: mountain,
                 index: index,
                 buttonTag: 'boton_${mountain.name}',
                 heroTag: 'hero_${mountain.name}',
                 currentIndex: currentIndex,
+                props: cardProps[index],
               );
             }).reversed.toList(),
           ),
@@ -91,6 +154,7 @@ class MountainCard extends StatelessWidget {
   final String heroTag;
   final String buttonTag;
   final int currentIndex;
+  final dynamic props;
 
   const MountainCard(
       {Key key,
@@ -98,7 +162,8 @@ class MountainCard extends StatelessWidget {
       this.index,
       this.heroTag,
       this.buttonTag,
-      this.currentIndex})
+      this.currentIndex,
+      this.props})
       : super(key: key);
 
   double opacidad() {
@@ -106,6 +171,19 @@ class MountainCard extends StatelessWidget {
       return 1;
     } else if (currentIndex <= index) {
       return 0.5;
+    } else {
+      return 0;
+    }
+  }
+
+  double imagenLeft(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    if (index == 0 && currentIndex != index) {
+      return -(screenSize.width * 0.27);
+    } else if (index == 1 && currentIndex != index) {
+      return screenSize.width * 0.14;
+    } else if (index == 2 && currentIndex != index) {
+      return 200;
     } else {
       return 0;
     }
@@ -166,16 +244,17 @@ class MountainCard extends StatelessWidget {
         children: [
           // imagen principal
           AnimatedPositioned(
-            bottom: 0,
-            //left: currentIndex <= index ? 0 : -100,
-            duration: const Duration(milliseconds: 500),
+            top: props['top'],
+            //left: currentIndex <= index ? 0 : 100,
+            left: props['left'],
+            duration: const Duration(milliseconds: 200),
             child: IgnorePointer(
               child: AnimatedOpacity(
                 //currentIndex <= index ? 1 : 0,
-                opacity: opacidad(),
-                duration: const Duration(milliseconds: 500),
+                opacity: props['opacity'],
+                duration: const Duration(milliseconds: 200),
                 child: TweenAnimationBuilder(
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 200),
                   tween: escalaName(),
                   curve: Curves.easeInOut,
                   builder: (context, value, child) {
@@ -184,7 +263,10 @@ class MountainCard extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: Hero(
                         tag: heroTag,
-                        child: Image.asset(mountain.images[0]),
+                        child: Image.asset(
+                          mountain.images[0],
+                          //fit: BoxFit.contain,
+                        ),
                       ),
                     );
                   },
@@ -193,13 +275,16 @@ class MountainCard extends StatelessWidget {
             ),
           ),
           AnimatedPositioned(
-            top: posDotTop(),
-            left: posDotLeft(),
-            duration: const Duration(milliseconds: 600),
+            top: props['top'] - 15,
+            left: props['leftDot'],
+            duration: const Duration(milliseconds: 450),
             child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 100),
               opacity: currentIndex == index ? 1 : 0,
-              child: SummitDot(mountain: mountain),
+              child: SummitDot(
+                mountain: mountain,
+                index: index,
+              ),
             ),
           ),
           // texto
@@ -281,6 +366,7 @@ class MountainCard extends StatelessWidget {
               child: BotonMonte(
                 tagboton: buttonTag,
                 mountain: mountain,
+                props: props,
               ),
             ),
           ),
@@ -326,15 +412,17 @@ class DetallesMonte extends StatelessWidget {
 class BotonMonte extends StatelessWidget {
   final String tagboton;
   final Mountain mountain;
-  const BotonMonte({Key key, this.tagboton, this.mountain}) : super(key: key);
+  final dynamic props;
+  const BotonMonte({Key key, this.tagboton, this.mountain, this.props})
+      : super(key: key);
 
-  void nextPage2(BuildContext context, Mountain mountain) {
+  void nextPage2(BuildContext context, Mountain mountain, dynamic props) {
     Navigator.of(context).push(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 600),
         pageBuilder: (context, animation, _) {
           return FadeTransition(
             opacity: animation,
-            child: MountainDetails(mountain: mountain),
+            child: MountainDetails(mountain: mountain, props: props),
           );
         }));
   }
@@ -345,7 +433,7 @@ class BotonMonte extends StatelessWidget {
       child: Container(
         height: 30,
         child: TextButton(
-          onPressed: () => nextPage2(context, mountain),
+          onPressed: () => nextPage2(context, mountain, props),
           style: ButtonStyle(
               overlayColor: MaterialStateColor.resolveWith(
                   (states) => Colors.transparent),
@@ -381,8 +469,9 @@ class BotonMonte extends StatelessWidget {
 }
 
 class SummitDot extends StatelessWidget {
+  final int index;
   final Mountain mountain;
-  const SummitDot({Key key, this.mountain}) : super(key: key);
+  const SummitDot({Key key, this.mountain, this.index}) : super(key: key);
 
   void nextPage1(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
@@ -399,39 +488,68 @@ class SummitDot extends StatelessWidget {
     Navigator.of(context).push(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 500),
         pageBuilder: (context, animation, _) {
-          return FadeTransition(
-            opacity: animation,
-            child: MountainFoto(mountain: mountain),
+          return ScaleTransition(
+            scale: animation,
+            child: FadeTransition(
+              opacity: animation,
+              child: MountainFoto(mountain: mountain),
+            ),
           );
         }));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 17,
-          width: 17,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        Container(
-          height: 1,
-          width: 60,
-          color: Colors.white,
-        ),
-        InkWell(
-          onTap: () => nextPage2(context, mountain),
-          child: Icon(
-            Icons.arrow_circle_down_sharp,
-            color: Colors.white30,
-            size: 35,
-          ),
-        ),
-      ],
-    );
+    return (index == 2)
+        ? Row(
+            children: [
+              InkWell(
+                onTap: () => nextPage2(context, mountain),
+                child: Icon(
+                  Icons.arrow_circle_down_sharp,
+                  color: Colors.white30,
+                  size: 35,
+                ),
+              ),
+              Container(
+                height: 1,
+                width: 60,
+                color: Colors.white,
+              ),
+              Container(
+                height: 17,
+                width: 17,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ],
+          )
+        : Row(
+            children: [
+              Container(
+                height: 17,
+                width: 17,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              Container(
+                height: 1,
+                width: 60,
+                color: Colors.white,
+              ),
+              InkWell(
+                onTap: () => nextPage2(context, mountain),
+                child: Icon(
+                  Icons.arrow_circle_down_sharp,
+                  color: Colors.white30,
+                  size: 35,
+                ),
+              ),
+            ],
+          );
   }
 }

@@ -3,12 +3,13 @@ import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_m
 
 class MountainDetails extends StatelessWidget {
   final Mountain mountain;
-  const MountainDetails({Key key, this.mountain}) : super(key: key);
+  final dynamic props;
+  const MountainDetails({Key key, this.mountain, this.props}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String texto = mountain.name.substring(0, 3);
-    String texto2 = mountain.name.substring(3, mountain.name.length);
+    String texto = mountain.name.substring(0, 2);
+    String texto2 = mountain.name.substring(2, mountain.name.length);
     String texto3 = texto + '\n' + texto2;
     return Scaffold(
       body: Container(
@@ -24,14 +25,13 @@ class MountainDetails extends StatelessWidget {
                 top: 40 + MediaQuery.of(context).padding.top,
                 left: 25,
                 right: 1 * 0.5 + 20,
-                child:
-                    //      Text(mountain.name.toUpperCase().split(' ').join('\n'),
-                    Text(texto3,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                          height: 0.95,
-                        )))
+                // Text(mountain.name.toUpperCase().split(' ').join('\n'),
+                child: Text(texto3,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 60,
+                      height: 0.95,
+                    )))
           ]),
           // descripcion
           Positioned(
@@ -107,9 +107,8 @@ class MountainDetails extends StatelessWidget {
           ),
           // imagen
           Positioned(
-            top: 1 * MediaQuery.of(context).size.height * 0.5,
-            right: 0,
-            left: 0,
+            top: MediaQuery.of(context).size.height * 0.75,
+            left: props['left'],
             child: Hero(
               tag: 'hero_${mountain.name}',
               child: Image.asset(mountain.images[0]),

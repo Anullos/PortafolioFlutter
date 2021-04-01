@@ -15,7 +15,7 @@ class MountainFoto extends StatelessWidget {
               constrained: false,
               child: Image.asset(
                 mountain.images[0],
-                scale: 0.85,
+                scale: 1.0,
                 //fit: BoxFit.contain,
               ),
             ),
@@ -23,19 +23,24 @@ class MountainFoto extends StatelessWidget {
           Positioned(
             top: 80,
             right: 30,
-            child: Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.black54.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Text(
-                'x',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                height: 40,
+                width: 40,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.black54.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Text(
+                  'x',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
             ),
