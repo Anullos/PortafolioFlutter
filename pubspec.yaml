@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
+  provider: ^5.0.0
 
 
 dev_dependencies:

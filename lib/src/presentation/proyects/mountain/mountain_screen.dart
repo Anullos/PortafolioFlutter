@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_details.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_foto.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_model.dart';
+import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_provider.dart';
+import 'package:provider/provider.dart';
 
 class MountainScreen extends StatefulWidget {
   const MountainScreen({Key key}) : super(key: key);
@@ -96,51 +98,57 @@ class _MountainScreenState extends State<MountainScreen> {
   @override
   Widget build(BuildContext context) {
     setCardProps();
-    return Scaffold(
-      body: GestureDetector(
-        onHorizontalDragStart: (_) {
-          adelante = false;
-          atras = false;
-        },
-        onHorizontalDragEnd: (_) {
-          if (adelante) {
-            setState(() {
-              currentIndex++;
-            });
-          } else if (atras) {
-            setState(() {
-              currentIndex--;
-            });
-          }
-        },
-        onHorizontalDragUpdate: (DragUpdateDetails details) {
-          changeMountain(details);
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                Mountain.defaultList()[currentIndex].colors[0],
-                Mountain.defaultList()[currentIndex].colors[1],
-              ],
+    return ChangeNotifierProvider(
+      create: (_) => NextAnimProvider(),
+      builder: (context, child) {
+        return child;
+      },
+      child: Scaffold(
+        body: GestureDetector(
+          onHorizontalDragStart: (_) {
+            adelante = false;
+            atras = false;
+          },
+          onHorizontalDragEnd: (_) {
+            if (adelante) {
+              setState(() {
+                currentIndex++;
+              });
+            } else if (atras) {
+              setState(() {
+                currentIndex--;
+              });
+            }
+          },
+          onHorizontalDragUpdate: (DragUpdateDetails details) {
+            changeMountain(details);
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+                  Mountain.defaultList()[currentIndex].colors[0],
+                  Mountain.defaultList()[currentIndex].colors[1],
+                ],
+              ),
             ),
-          ),
-          child: Stack(
-            children: List<Widget>.generate(Mountain.defaultList().length,
-                (int index) {
-              final mountain = Mountain.defaultList()[index];
-              return MountainCard(
-                mountain: mountain,
-                index: index,
-                buttonTag: 'boton_${mountain.name}',
-                heroTag: 'hero_${mountain.name}',
-                currentIndex: currentIndex,
-                props: cardProps[index],
-              );
-            }).reversed.toList(),
+            child: Stack(
+              children: List<Widget>.generate(Mountain.defaultList().length,
+                  (int index) {
+                final mountain = Mountain.defaultList()[index];
+                return MountainCard(
+                  mountain: mountain,
+                  index: index,
+                  buttonTag: 'boton_${mountain.name}',
+                  heroTag: 'hero_${mountain.name}',
+                  currentIndex: currentIndex,
+                  props: cardProps[index],
+                );
+              }).reversed.toList(),
+            ),
           ),
         ),
       ),
@@ -239,6 +247,10 @@ class MountainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //bool next = false;
+    NextAnimProvider next = NextAnimProvider.of(context);
+    bool next2 = next.nextAnim;
+
     return Positioned.fill(
       child: Stack(
         children: [
@@ -250,17 +262,18 @@ class MountainCard extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             child: IgnorePointer(
               child: AnimatedOpacity(
-                //currentIndex <= index ? 1 : 0,
                 opacity: props['opacity'],
                 duration: const Duration(milliseconds: 200),
                 child: TweenAnimationBuilder(
                   duration: const Duration(milliseconds: 200),
-                  tween: escalaName(),
+                  tween:
+                      next2 ? Tween<double>(begin: 1, end: 1.5) : escalaName(),
                   curve: Curves.easeInOut,
                   builder: (context, value, child) {
                     return Transform.scale(
                       scale: value,
-                      alignment: Alignment.bottomRight,
+                      alignment:
+                          next2 ? Alignment.center : Alignment.bottomRight,
                       child: Hero(
                         tag: heroTag,
                         child: Image.asset(
@@ -484,18 +497,23 @@ class SummitDot extends StatelessWidget {
         }));
   }
 
-  void nextPage2(BuildContext context, Mountain mountain) {
-    Navigator.of(context).push(PageRouteBuilder(
+  void nextPage2(BuildContext context, Mountain mountain) async {
+    NextAnimProvider provider =
+        Provider.of<NextAnimProvider>(context, listen: false);
+    provider.nextAnim = true;
+    Navigator.of(context).push(
+      PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 500),
         pageBuilder: (context, animation, _) {
-          return ScaleTransition(
-            scale: animation,
-            child: FadeTransition(
-              opacity: animation,
-              child: MountainFoto(mountain: mountain),
-            ),
+          return FadeTransition(
+            opacity: animation,
+            child: MountainFoto(mountain: mountain),
           );
-        }));
+        },
+      ),
+    );
+    await Future.delayed(Duration(seconds: 1));
+    provider.nextAnim = false;
   }
 
   @override
