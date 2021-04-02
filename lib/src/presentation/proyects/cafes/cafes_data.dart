@@ -1,7 +1,6 @@
 import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_models.dart';
 
 final List<Cafe> cafes = [
-  
   Cafe(
     idCafe: '8',
     name: 'Americano',
@@ -52,13 +51,6 @@ final List<Cafe> cafes = [
     isHot: false,
   ),
   Cafe(
-    idCafe: '6',
-    name: 'Capuchino',
-    image: 'assets/cafes/6.png',
-    price: 3.5,
-    isHot: true,
-  ),
-  Cafe(
     idCafe: '7',
     name: 'Toffee Nut Iced Latte',
     image: 'assets/cafes/7.png',
@@ -84,6 +76,13 @@ final List<Cafe> cafes = [
     name: 'Caramel Macchiato',
     image: 'assets/cafes/1.png',
     price: 2.50,
+    isHot: true,
+  ),
+  Cafe(
+    idCafe: '6',
+    name: 'Capuchino',
+    image: 'assets/cafes/6.png',
+    price: 3.5,
     isHot: true,
   ),
 ];

@@ -16,7 +16,6 @@ class CafesScreen2 extends StatefulWidget {
 
 class _CafesScreen2State extends State<CafesScreen2>
     with TickerProviderStateMixin {
-  final _pageController = PageController(initialPage: 0);
   AnimationController _controllerTop;
   AnimationController _controllerBottom;
   Animation<Color> _animColor;
@@ -30,22 +29,15 @@ class _CafesScreen2State extends State<CafesScreen2>
   bool cambio = false;
 
   void changeCafe(DragUpdateDetails details) {
-    if (details.primaryDelta < 0 && _currentIndex < cafes.length) {
+    if (details.primaryDelta > 0 && _currentIndex < cafes.length) {
       this._adelante = true;
-    } else if (details.primaryDelta > 0 && _currentIndex > 0) {
+    } else if (details.primaryDelta < 0 && _currentIndex > 0) {
       this._atras = true;
     }
   }
 
-  _setcurrentPage() {
-    setState(() {
-      _currentIndex = _pageController.page;
-    });
-  }
-
   @override
   void initState() {
-    _pageController.addListener(_setcurrentPage);
     _controllerTop = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -86,27 +78,31 @@ class _CafesScreen2State extends State<CafesScreen2>
 
   double posTopList(BuildContext context, int index) {
     final size = MediaQuery.of(context).size;
-    if (index == _currentIndex) {
-      return 150 - (size.height * (0 * 0.12));
+    if (index < _currentIndex) {
+      return 200 - (size.height * (0 * 0.12));
+    } else if (index == _currentIndex) {
+      return 120 - (size.height * (0 * 0.12));
     } else if (index == _currentIndex + 1) {
-      return 150 - (size.height * (1 * 0.12));
+      return 120 - (size.height * (1 * 0.10));
     } else if (index == _currentIndex + 2) {
-      return 150 - (size.height * (2 * 0.12));
+      return 120 - (size.height * (2 * 0.08));
     } else {
-      return 150 - (size.height * (0 * 0.12));
+      return 120 - (size.height * (3 * 0.10));
     }
   }
 
   double posLeftList(BuildContext context, int index) {
     final size = MediaQuery.of(context).size;
-    if (index == _currentIndex) {
-      return (size.width * 0.03 + (0 * 30));
+    if (index < _currentIndex) {
+      return -(size.width * 0.03);
+    } else if (index == _currentIndex) {
+      return (size.width * 0.18 + (0 * 50));
     } else if (index == _currentIndex + 1) {
-      return (size.width * 0.03 + (1 * 30));
+      return (size.width * 0.03 + (2 * 50));
     } else if (index == _currentIndex + 2) {
-      return (size.width * 0.03 + (2 * 30));
+      return (size.width * 0.03 + (3 * 50));
     } else {
-      return (size.width * 0.03 + (3 * 30));
+      return (size.width * 0.03 + (4 * 50));
     }
   }
 
@@ -173,33 +169,15 @@ class _CafesScreen2State extends State<CafesScreen2>
             builder: (context, child) {
               return Positioned(
                 top: -100 + 250 * _tituloTop.value,
-                right: 0,
-                left: 0,
+                right: 100,
+                left: 100,
                 child: Opacity(
                   opacity: _opacidadTop.value,
                   child: Container(
-                    width: size.width,
-                    height: size.height * .2,
-                    child: PageView.builder(
-                      controller: _pageController,
-                      onPageChanged: (value) {
-                        provider.pagina = value;
-                      },
-                      itemCount: cafes.length,
-                      itemBuilder: (context, index) {
-                        final cafe = cafes[index];
-                        final percent =
-                            (_currentIndex - index).abs().clamp(0.0, 1.0);
-                        final opacity = percent.clamp(0.0, 1.0);
-                        return Opacity(
-                          opacity: 1.0 - opacity,
-                          child: ItemPage(
-                            cafe: cafe,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                      height: size.height * .2,
+                      child: ItemPage(
+                        cafe: cafes[provider.pagina],
+                      )),
                 ),
               );
             },
@@ -238,25 +216,15 @@ class _CafesScreen2State extends State<CafesScreen2>
                 _atras = false;
               },
               onVerticalDragEnd: (_) {
-                if (_adelante) {
+                if (_adelante && _currentIndex < cafes.length - 1) {
                   provider.pagina++;
                   setState(() {
                     _currentIndex++;
-                    _pageController.animateToPage(
-                      provider.pagina,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeIn,
-                    );
                   });
-                } else if (_atras) {
+                } else if (_atras && _currentIndex > 0) {
                   provider.pagina--;
                   setState(() {
                     _currentIndex--;
-                    _pageController.animateToPage(
-                      provider.pagina,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeIn,
-                    );
                   });
                 }
               },
@@ -266,19 +234,13 @@ class _CafesScreen2State extends State<CafesScreen2>
                 child: Stack(
                   children: List<Widget>.generate(cafes.length, (index) {
                     final cafe = cafes[index];
-                    //double aux = (_currentIndex + 2);
-                    //bool mostrar = (_currentIndex <= index) && (index >= aux);
                     return AnimatedPositioned(
                       duration: const Duration(milliseconds: 250),
-                      //top: 250 - (size.height * (index * 0.10)),
-                      //right: (size.width * 0.03 + (index * 30)),
-                      //left: (size.width * 0.03 + (index * 30)),
                       top: posTopList(context, index),
                       left: posLeftList(context, index),
                       right: posLeftList(context, index),
                       child: AnimatedOpacity(
                         duration: const Duration(milliseconds: 250),
-                        //opacity: mostrar ? 1 : 0,
                         opacity: posOpacidad(index),
                         child: ItemCafe(
                           cafe: cafe,
@@ -352,6 +314,7 @@ class ItemPage extends StatelessWidget {
     return Hero(
       tag: '${cafe.name}',
       child: Material(
+        color: Colors.transparent,
         child: Text(
           cafe.name,
           textAlign: TextAlign.center,
