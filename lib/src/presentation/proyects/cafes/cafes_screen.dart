@@ -114,25 +114,9 @@ class CafesScreen extends StatelessWidget {
                   top: size.height * 0.6,
                   left: 0,
                   right: 0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'FIKA',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Coffee',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 60,
-                        ),
-                      ),
-                    ],
+                  child: Container(
+                    height: 130,
+                    child: Image.asset('assets/cafes/logo.png'),
                   ),
                 ),
               ],

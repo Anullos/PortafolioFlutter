@@ -142,7 +142,7 @@ class _CafesScreen2State extends State<CafesScreen2>
               ),
             ),
           ),
-          CustomAppBar(),
+          CustomAppBar(cambiar: true),
           //Sombra abajo
           Positioned(
             bottom: -70,

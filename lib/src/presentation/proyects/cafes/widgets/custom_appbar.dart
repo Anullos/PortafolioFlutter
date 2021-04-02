@@ -3,7 +3,8 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_provide
 import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_variables.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key key}) : super(key: key);
+  final bool cambiar;
+  const CustomAppBar({Key key, this.cambiar}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class CustomAppBar extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.of(context).pop();
-                  // provider.cambio = false;
+                  if (cambiar) {
+                    provider.cambio = false;
+                  }
                 },
                 child: Icon(
                   Icons.arrow_back_ios_outlined,
@@ -36,9 +39,7 @@ class CustomAppBar extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
-                        onTap: () {
-                          
-                        },
+                        onTap: () {},
                         child: Icon(
                           Icons.shopping_bag_outlined,
                           size: 35,

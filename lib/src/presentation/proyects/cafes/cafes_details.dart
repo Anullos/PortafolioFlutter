@@ -43,7 +43,7 @@ class _CafesDetailsState extends State<CafesDetails>
     return Scaffold(
       body: Stack(
         children: [
-          CustomAppBar(),
+          CustomAppBar(cambiar: false),
           // Titulo cafe
           Positioned(
             top: 70,
@@ -86,7 +86,6 @@ class _CafesDetailsState extends State<CafesDetails>
               ),
             ),
           ),
-
           // Texto Precio
           AnimatedBuilder(
             animation: _controller,
@@ -102,10 +101,9 @@ class _CafesDetailsState extends State<CafesDetails>
                     fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
-                        color: Colors.black,
-                        blurRadius: 30,
-                        offset: Offset(0.5,0.5)
-                      ),
+                          color: Colors.black,
+                          blurRadius: 30,
+                          offset: Offset(0.5, 0.5)),
                     ],
                   ),
                 ),
@@ -130,9 +128,10 @@ class _CafesDetailsState extends State<CafesDetails>
                         children: [
                           Column(
                             children: [
-                              Icon(
-                                Icons.stay_primary_landscape,
-                                size: 35,
+                              Container(
+                                width: 35,
+                                height: 35,
+                                child: Image.asset('assets/cafes/taza_s.png'),
                               ),
                               Text(
                                 'S',
@@ -140,12 +139,14 @@ class _CafesDetailsState extends State<CafesDetails>
                               ),
                             ],
                           ),
-                          const SizedBox(width: 10),
+                          const SizedBox(width: 20),
                           Column(
                             children: [
-                              Icon(
-                                Icons.memory_rounded,
-                                size: 45,
+                              Container(
+                                width: 45,
+                                height: 45,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset('assets/cafes/taza_m.png'),
                               ),
                               Text(
                                 'M',
@@ -156,9 +157,11 @@ class _CafesDetailsState extends State<CafesDetails>
                           const SizedBox(width: 10),
                           Column(
                             children: [
-                              Icon(
-                                Icons.brightness_5_outlined,
-                                size: 55,
+                              Container(
+                                width: 55,
+                                height: 55,
+                                margin: EdgeInsets.only(left: 10),
+                                child: Image.asset('assets/cafes/taza_l.png'),
                               ),
                               Text(
                                 'L',
