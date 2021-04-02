@@ -2,6 +2,13 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_models.
 
 final List<Cafe> cafes = [
   Cafe(
+    idCafe: '1',
+    name: 'Caramel Macchiato',
+    image: 'assets/cafes/1.png',
+    price: 2.50,
+    isHot: true,
+  ),
+  Cafe(
     idCafe: '8',
     name: 'Americano',
     image: 'assets/cafes/8.png',
@@ -44,6 +51,13 @@ final List<Cafe> cafes = [
     isHot: false,
   ),
   Cafe(
+    idCafe: '6',
+    name: 'Capuchino',
+    image: 'assets/cafes/6.png',
+    price: 3.5,
+    isHot: true,
+  ),
+  Cafe(
     idCafe: '5',
     name: 'Toffee Nut Latte',
     image: 'assets/cafes/5.png',
@@ -70,19 +84,5 @@ final List<Cafe> cafes = [
     image: 'assets/cafes/12.png',
     price: 3.5,
     isHot: false,
-  ),
-  Cafe(
-    idCafe: '1',
-    name: 'Caramel Macchiato',
-    image: 'assets/cafes/1.png',
-    price: 2.50,
-    isHot: true,
-  ),
-  Cafe(
-    idCafe: '6',
-    name: 'Capuchino',
-    image: 'assets/cafes/6.png',
-    price: 3.5,
-    isHot: true,
   ),
 ];

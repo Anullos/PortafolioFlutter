@@ -18,7 +18,6 @@ class _CafesScreen2State extends State<CafesScreen2>
     with TickerProviderStateMixin {
   AnimationController _controllerTop;
   AnimationController _controllerBottom;
-  Animation<Color> _animColor;
   Animation<double> _tituloTop;
   Animation<double> _opacidadTop;
   Animation<double> _tituloBottom;
@@ -27,6 +26,7 @@ class _CafesScreen2State extends State<CafesScreen2>
   bool _adelante = false;
   bool _atras = false;
   bool cambio = false;
+  bool moverTextoTop = false;
 
   void changeCafe(DragUpdateDetails details) {
     if (details.primaryDelta > 0 && _currentIndex < cafes.length) {
@@ -48,8 +48,6 @@ class _CafesScreen2State extends State<CafesScreen2>
         curve: Curves.fastOutSlowIn,
       ),
     );
-    _animColor = ColorTween(begin: colorBackground, end: Colors.white)
-        .animate(_controllerTop);
     _opacidadTop = Tween(begin: 0.0, end: 1.0).animate(_controllerTop);
     _controllerBottom = AnimationController(
       vsync: this,
@@ -79,7 +77,7 @@ class _CafesScreen2State extends State<CafesScreen2>
   double posTopList(BuildContext context, int index) {
     final size = MediaQuery.of(context).size;
     if (index < _currentIndex) {
-      return 200 - (size.height * (0 * 0.12));
+      return 600 - (size.height * (0 * 0.12));
     } else if (index == _currentIndex) {
       return 120 - (size.height * (0 * 0.12));
     } else if (index == _currentIndex + 1) {
@@ -87,7 +85,7 @@ class _CafesScreen2State extends State<CafesScreen2>
     } else if (index == _currentIndex + 2) {
       return 120 - (size.height * (2 * 0.08));
     } else {
-      return 120 - (size.height * (3 * 0.10));
+      return 520 - (size.height * (3 * 0.10));
     }
   }
 
@@ -96,7 +94,7 @@ class _CafesScreen2State extends State<CafesScreen2>
     if (index < _currentIndex) {
       return -(size.width * 0.03);
     } else if (index == _currentIndex) {
-      return (size.width * 0.18 + (0 * 50));
+      return (size.width * 0.14 + (0 * 50));
     } else if (index == _currentIndex + 1) {
       return (size.width * 0.03 + (2 * 50));
     } else if (index == _currentIndex + 2) {
@@ -107,7 +105,9 @@ class _CafesScreen2State extends State<CafesScreen2>
   }
 
   double posOpacidad(int index) {
-    if (index == _currentIndex) {
+    if (index < _currentIndex) {
+      return 0;
+    } else if (index == _currentIndex) {
       return 1;
     } else if (index == _currentIndex + 1) {
       return 0.9;
@@ -127,20 +127,17 @@ class _CafesScreen2State extends State<CafesScreen2>
         children: [
           // Fondo Pantalla
           Positioned.fill(
-            child: AnimatedBuilder(
-              animation: _controllerTop,
-              builder: (context, child) => child,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.25, 1],
-                    colors: [
-                      _animColor.value,
-                      Colors.white,
-                    ],
-                  ),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 1200),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.25, 1],
+                  colors: [
+                    cambio ? Colors.white : colorBackground,
+                    Colors.white,
+                  ],
                 ),
               ),
             ),
@@ -163,21 +160,21 @@ class _CafesScreen2State extends State<CafesScreen2>
               ),
             ),
           ),
-          //PageViewTitulos
+          // Titulos TOP
           AnimatedBuilder(
             animation: _controllerTop,
             builder: (context, child) {
               return Positioned(
+                // duration: const Duration(milliseconds: 500),
                 top: -100 + 250 * _tituloTop.value,
-                right: 100,
-                left: 100,
+                right: 80,
+                left: 80,
                 child: Opacity(
                   opacity: _opacidadTop.value,
                   child: Container(
-                      height: size.height * .2,
                       child: ItemPage(
-                        cafe: cafes[provider.pagina],
-                      )),
+                    cafe: cafes[provider.pagina],
+                  )),
                 ),
               );
             },
@@ -216,6 +213,7 @@ class _CafesScreen2State extends State<CafesScreen2>
                 _atras = false;
               },
               onVerticalDragEnd: (_) {
+                moverTextoTop = true;
                 if (_adelante && _currentIndex < cafes.length - 1) {
                   provider.pagina++;
                   setState(() {
@@ -284,15 +282,16 @@ class ItemCafe extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context)
-            .push(PageRouteBuilder(pageBuilder: (context, anim, _) {
-          return FadeTransition(
-            opacity: anim,
-            child: CafesDetails(
-              cafe: cafe,
-            ),
-          );
-        }));
+        Navigator.of(context).push(PageRouteBuilder(
+            transitionDuration: const Duration(milliseconds: 500),
+            pageBuilder: (context, anim, _) {
+              return FadeTransition(
+                opacity: anim,
+                child: CafesDetails(
+                  cafe: cafe,
+                ),
+              );
+            }));
       },
       child: Hero(
         tag: '${cafe.idCafe}',
