@@ -54,6 +54,7 @@ flutter:
     - assets/ciudades/
     - assets/futbol/
     - assets/mountain/
+    - assets/cafes/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
