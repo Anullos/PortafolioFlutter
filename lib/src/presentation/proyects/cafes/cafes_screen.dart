@@ -14,6 +14,7 @@ class CafesScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          // Portada COMPLETA
           InkWell(
             onTap: () {
               Navigator.of(context).push(PageRouteBuilder(
@@ -44,7 +45,6 @@ class CafesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 // Cuarto
                 Positioned(
                   top: size.height * 0.12,

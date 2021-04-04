@@ -16,6 +16,7 @@ class CafesScreen2 extends StatefulWidget {
 
 class _CafesScreen2State extends State<CafesScreen2>
     with TickerProviderStateMixin {
+  PageController _pageController = PageController(initialPage: 0);
   AnimationController _controllerTop;
   AnimationController _controllerBottom;
   Animation<double> _tituloTop;
@@ -69,6 +70,7 @@ class _CafesScreen2State extends State<CafesScreen2>
 
   @override
   void dispose() {
+    _pageController.dispose();
     _controllerTop.dispose();
     _controllerBottom.dispose();
     super.dispose();
@@ -172,9 +174,19 @@ class _CafesScreen2State extends State<CafesScreen2>
                 child: Opacity(
                   opacity: _opacidadTop.value,
                   child: Container(
-                      child: ItemPage(
-                    cafe: cafes[provider.pagina],
-                  )),
+                    height: 200,
+                    width: size.width,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: cafes.length,
+                      itemBuilder: (_, index) {
+                        print(index);
+                        return ItemPage(
+                          cafe: cafes[index],
+                        );
+                      },
+                    ),
+                  ),
                 ),
               );
             },
@@ -216,11 +228,17 @@ class _CafesScreen2State extends State<CafesScreen2>
                 moverTextoTop = true;
                 if (_adelante && _currentIndex < cafes.length - 1) {
                   provider.pagina++;
+                  _pageController.animateToPage(provider.pagina,
+                      duration: const Duration(milliseconds: 600),
+                      curve: Curves.easeInOut);
                   setState(() {
                     _currentIndex++;
                   });
                 } else if (_atras && _currentIndex > 0) {
                   provider.pagina--;
+                  _pageController.animateToPage(provider.pagina,
+                      duration: const Duration(milliseconds: 600),
+                      curve: Curves.easeInOut);
                   setState(() {
                     _currentIndex--;
                   });
