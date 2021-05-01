@@ -313,9 +313,12 @@ class ItemCafe extends StatelessWidget {
       },
       child: Hero(
         tag: '${cafe.idCafe}',
-        child: Image.asset(
-          cafe.image,
-          fit: BoxFit.contain,
+        child: Container(
+          //height: size.height * 0.5,
+          child: Image.asset(
+            cafe.image,
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );

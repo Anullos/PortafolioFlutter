@@ -4,7 +4,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_variabl
 
 class CustomAppBar extends StatelessWidget {
   final bool cambiar;
-  const CustomAppBar({Key key, this.cambiar}) : super(key: key);
+  const CustomAppBar({Key key, this.cambiar = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

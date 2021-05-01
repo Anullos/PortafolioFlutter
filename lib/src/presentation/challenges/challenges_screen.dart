@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:portafolio_flutter/src/presentation/animaciones/anim_screen.dart';
-import 'package:portafolio_flutter/src/presentation/challenges/challenges_screen.dart';
-import 'package:portafolio_flutter/src/presentation/demos/demos_screen.dart';
-import 'package:portafolio_flutter/src/presentation/home/custom_drawer.dart';
+import 'package:portafolio_flutter/src/presentation/challenges/music_pro/music_screen.dart';
+import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key key}) : super(key: key);
+class ChallengesScreen extends StatelessWidget {
+  const ChallengesScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +11,8 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 10,
         centerTitle: true,
-        title: Text('Portafolio Anullos'),
+        title: Text('Challenges'),
       ),
-      drawer: CustomDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
@@ -27,12 +24,12 @@ class HomeScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => DemosScreen()));
+                      .push(MaterialPageRoute(builder: (_) => CafesScreen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
-                    'Demos',
+                    '1. Coffe',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
@@ -40,27 +37,13 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 15),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => AnimacionesScreen()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => MusicScreen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
-                    'Animaciones',
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => ChallengesScreen()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Challenges',
+                    '2. Music',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),
