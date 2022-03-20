@@ -11,14 +11,14 @@ class Mountain {
   List<Color> colors;
 
   Mountain(
-      {this.name,
-      this.ranked,
-      this.elevation,
-      this.coordinates,
-      this.country,
-      this.information,
-      this.images,
-      this.colors});
+      {required this.name,
+      required this.ranked,
+      required this.elevation,
+      required this.coordinates,
+      required this.country,
+      required this.information,
+      required this.images,
+      required this.colors});
 
   static List<Mountain> defaultList() {
     List<Mountain> list = [];

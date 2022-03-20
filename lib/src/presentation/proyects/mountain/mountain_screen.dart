@@ -6,7 +6,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_p
 import 'package:provider/provider.dart';
 
 class MountainScreen extends StatefulWidget {
-  const MountainScreen({Key key}) : super(key: key);
+  const MountainScreen({Key? key}) : super(key: key);
 
   @override
   _MountainScreenState createState() => _MountainScreenState();
@@ -19,9 +19,9 @@ class _MountainScreenState extends State<MountainScreen> {
   List<dynamic> cardProps = [];
 
   void changeMountain(DragUpdateDetails details) {
-    if (details.primaryDelta < 0 && currentIndex < 2) {
+    if (details.primaryDelta! < 0 && currentIndex < 2) {
       adelante = true;
-    } else if (details.primaryDelta > 0 && currentIndex > 0) {
+    } else if (details.primaryDelta! > 0 && currentIndex > 0) {
       atras = true;
     }
   }
@@ -101,7 +101,7 @@ class _MountainScreenState extends State<MountainScreen> {
     return ChangeNotifierProvider(
       create: (_) => NextAnimProvider(),
       builder: (context, child) {
-        return child;
+        return child!;
       },
       child: Scaffold(
         body: GestureDetector(
@@ -165,13 +165,13 @@ class MountainCard extends StatelessWidget {
   final dynamic props;
 
   const MountainCard(
-      {Key key,
-      this.mountain,
-      this.index,
-      this.heroTag,
-      this.buttonTag,
-      this.currentIndex,
-      this.props})
+      {Key? key,
+      required this.mountain,
+      required this.index,
+      required this.heroTag,
+      required this.buttonTag,
+      required this.currentIndex,
+      required this.props})
       : super(key: key);
 
   double opacidad() {
@@ -264,7 +264,7 @@ class MountainCard extends StatelessWidget {
               child: AnimatedOpacity(
                 opacity: props['opacity'],
                 duration: const Duration(milliseconds: 200),
-                child: TweenAnimationBuilder(
+                child: TweenAnimationBuilder<double>(
                   duration: const Duration(milliseconds: 200),
                   tween:
                       next2 ? Tween<double>(begin: 1, end: 1.5) : escalaName(),
@@ -316,7 +316,7 @@ class MountainCard extends StatelessWidget {
                         opacity: currentIndex == index ? 1 : 0,
                         child: Padding(
                           padding: EdgeInsets.only(right: 5, top: 20),
-                          child: TweenAnimationBuilder(
+                          child: TweenAnimationBuilder<double>(
                             duration: const Duration(milliseconds: 300),
                             tween: escalaName(),
                             curve: Curves.easeInOut,
@@ -345,7 +345,7 @@ class MountainCard extends StatelessWidget {
                         duration: const Duration(milliseconds: 250),
                         opacity: currentIndex == index ? 1 : 0,
                         curve: Curves.easeInOut,
-                        child: TweenAnimationBuilder(
+                        child: TweenAnimationBuilder<Offset>(
                           duration: const Duration(milliseconds: 300),
                           tween: tweenMonte(),
                           curve: Curves.easeInOut,
@@ -392,7 +392,8 @@ class MountainCard extends StatelessWidget {
 class DetallesMonte extends StatelessWidget {
   final Mountain mountain;
   final int index;
-  const DetallesMonte({Key key, this.index, this.mountain}) : super(key: key);
+  const DetallesMonte({Key? key, required this.index, required this.mountain})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -426,7 +427,8 @@ class BotonMonte extends StatelessWidget {
   final String tagboton;
   final Mountain mountain;
   final dynamic props;
-  const BotonMonte({Key key, this.tagboton, this.mountain, this.props})
+  const BotonMonte(
+      {Key? key, required this.tagboton, required this.mountain, this.props})
       : super(key: key);
 
   void nextPage2(BuildContext context, Mountain mountain, dynamic props) {
@@ -484,7 +486,8 @@ class BotonMonte extends StatelessWidget {
 class SummitDot extends StatelessWidget {
   final int index;
   final Mountain mountain;
-  const SummitDot({Key key, this.mountain, this.index}) : super(key: key);
+  const SummitDot({Key? key, required this.mountain, required this.index})
+      : super(key: key);
 
   void nextPage1(BuildContext context) {
     Navigator.of(context).push(PageRouteBuilder(
@@ -492,7 +495,9 @@ class SummitDot extends StatelessWidget {
         pageBuilder: (context, animation, _) {
           return ScaleTransition(
             scale: animation,
-            child: MountainFoto(),
+            child: MountainFoto(
+              mountain: mountain,
+            ),
           );
         }));
   }

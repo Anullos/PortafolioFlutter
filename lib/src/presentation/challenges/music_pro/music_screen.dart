@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:portafolio_flutter/src/presentation/challenges/music_pro/music_model.dart';
 
 class MusicScreen extends StatefulWidget {
-  const MusicScreen({Key key}) : super(key: key);
+  const MusicScreen({Key? key}) : super(key: key);
 
   @override
   _MusicScreenState createState() => _MusicScreenState();
@@ -12,8 +12,8 @@ class MusicScreen extends StatefulWidget {
 
 class _MusicScreenState extends State<MusicScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _alturaFactorAnimacion;
+  late AnimationController _controller;
+  late Animation<double> _alturaFactorAnimacion;
   double alturaPantalla = 0;
   bool isOpening = false;
 
@@ -38,7 +38,7 @@ class _MusicScreenState extends State<MusicScreen>
   }
 
   _handleVerticalUpdate(DragUpdateDetails updateDetails) {
-    double fractionDragged = updateDetails.primaryDelta / alturaPantalla;
+    double fractionDragged = updateDetails.primaryDelta! / alturaPantalla;
     // el -5 es para la velocidad del arrastre que detecta
     if (fractionDragged > 0) {
       _controller.value = _controller.value - 5 * fractionDragged;
@@ -128,9 +128,9 @@ class CustomBottomBar extends StatelessWidget {
   final bool isOpen;
   final double factorAnimacion;
   const CustomBottomBar({
-    Key key,
-    this.isOpen,
-    this.factorAnimacion,
+    Key? key,
+    required this.isOpen,
+    required this.factorAnimacion,
   }) : super(key: key);
 
   @override
@@ -279,7 +279,8 @@ class CustomBottomBar extends StatelessWidget {
 class MusicItem extends StatelessWidget {
   final MusicModel musicItem;
   final VoidCallback onTap;
-  const MusicItem({Key key, this.musicItem, this.onTap}) : super(key: key);
+  const MusicItem({Key? key, required this.musicItem, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +333,7 @@ class MusicItem extends StatelessWidget {
 
 class ColorItem extends StatelessWidget {
   final Color color;
-  const ColorItem({Key key, this.color}) : super(key: key);
+  const ColorItem({Key? key, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

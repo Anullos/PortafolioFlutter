@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key key}) : super(key: key);
+  const CustomDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +93,11 @@ class ListaTitulos extends StatelessWidget {
   final MaterialColor iconoColor;
 
   ListaTitulos(
-      {@required this.onTap,
-      @required this.titulo,
-      @required this.icono,
-      @required this.iconoColor});
-
+      {required this.onTap,
+      required this.titulo,
+      required this.icono,
+      required this.iconoColor});
+      
   @override
   Widget build(BuildContext context) {
     return InkWell(

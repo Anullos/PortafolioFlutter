@@ -5,7 +5,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/futbol/futbol_detai
 import 'package:portafolio_flutter/src/presentation/proyects/futbol/futbol_model.dart';
 
 class FutbolScreen extends StatefulWidget {
-  const FutbolScreen({Key key}) : super(key: key);
+  const FutbolScreen({Key? key}) : super(key: key);
 
   @override
   _FutbolScreenState createState() => _FutbolScreenState();
@@ -26,7 +26,7 @@ class _FutbolScreenState extends State<FutbolScreen> {
 
   _setcurrentPage() {
     setState(() {
-      currentPage = _pageController.page;
+      currentPage = _pageController.page!;
     });
   }
 
@@ -118,7 +118,7 @@ class _FutbolScreenState extends State<FutbolScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(40.0),
-                      child: ValueListenableBuilder(
+                      child: ValueListenableBuilder<int>(
                         valueListenable: _priceNotifier,
                         builder: (context, value, child) {
                           return TweenAnimationBuilder(
@@ -207,7 +207,7 @@ class _FutbolScreenState extends State<FutbolScreen> {
 
 class BotonChico extends StatelessWidget {
   final String numero;
-  const BotonChico({Key key, this.numero}) : super(key: key);
+  const BotonChico({Key? key, required this.numero}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -257,7 +257,8 @@ class BalonItem extends StatelessWidget {
   final Balon balon;
   final VoidCallback onTap;
   final double scale;
-  const BalonItem({Key key, this.balon, this.onTap, this.scale})
+  const BalonItem(
+      {Key? key, required this.balon, required this.onTap, required this.scale})
       : super(key: key);
 
   @override

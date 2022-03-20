@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 class CafesProvider extends ChangeNotifier {
   bool _cambio = false;
 
-  get cambio {
+  bool get cambio {
     return this._cambio;
   }
 
@@ -15,7 +15,7 @@ class CafesProvider extends ChangeNotifier {
 
   int _paginaActual = 0;
 
-  get pagina {
+  int get pagina {
     return this._paginaActual;
   }
 

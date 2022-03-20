@@ -5,10 +5,11 @@ import 'package:portafolio_flutter/src/presentation/demos/demos_screen.dart';
 import 'package:portafolio_flutter/src/presentation/home/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('home');
     return Scaffold(
       appBar: AppBar(
         elevation: 10,

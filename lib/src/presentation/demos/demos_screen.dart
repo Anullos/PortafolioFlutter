@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_screen.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/futbol/futbol_screen.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_screen.dart';
+import 'package:portafolio_flutter/src/presentation/proyects/movies/movie_main_page.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/multiplecard/multiple_screen.dart';
 
 class DemosScreen extends StatelessWidget {
-  const DemosScreen({Key key}) : super(key: key);
+  const DemosScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +68,27 @@ class DemosScreen extends StatelessWidget {
               const SizedBox(height: 15),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => CafesScreen()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => CafesScreen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     'Cafes',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => MovieMainPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'Movies',
                     style: TextStyle(fontSize: 20.0),
                   ),
                 ),

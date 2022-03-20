@@ -4,7 +4,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/multiplecard/multip
 
 class MultipleDetails extends StatelessWidget {
   final City city;
-  const MultipleDetails({Key key, this.city}) : super(key: key);
+  const MultipleDetails({Key? key, required this.city}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

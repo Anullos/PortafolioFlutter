@@ -5,7 +5,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_variabl
 import 'package:portafolio_flutter/src/presentation/proyects/cafes/widgets/custom_appbar.dart';
 
 class CafesScreen extends StatelessWidget {
-  const CafesScreen({Key key}) : super(key: key);
+  const CafesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

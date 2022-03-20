@@ -8,7 +8,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/widgets/custo
 import 'package:provider/provider.dart';
 
 class CafesScreen2 extends StatefulWidget {
-  const CafesScreen2({Key key}) : super(key: key);
+  const CafesScreen2({Key? key}) : super(key: key);
 
   @override
   _CafesScreen2State createState() => _CafesScreen2State();
@@ -17,12 +17,12 @@ class CafesScreen2 extends StatefulWidget {
 class _CafesScreen2State extends State<CafesScreen2>
     with TickerProviderStateMixin {
   PageController _pageController = PageController(initialPage: 0);
-  AnimationController _controllerTop;
-  AnimationController _controllerBottom;
-  Animation<double> _tituloTop;
-  Animation<double> _opacidadTop;
-  Animation<double> _tituloBottom;
-  CafesProvider provider;
+  late AnimationController _controllerTop;
+  late AnimationController _controllerBottom;
+  late Animation<double> _tituloTop;
+  late Animation<double> _opacidadTop;
+  late Animation<double> _tituloBottom;
+  late CafesProvider provider;
   double _currentIndex = 0;
   bool _adelante = false;
   bool _atras = false;
@@ -30,9 +30,9 @@ class _CafesScreen2State extends State<CafesScreen2>
   bool moverTextoTop = false;
 
   void changeCafe(DragUpdateDetails details) {
-    if (details.primaryDelta > 0 && _currentIndex < cafes.length) {
+    if (details.primaryDelta! > 0 && _currentIndex < cafes.length) {
       this._adelante = true;
-    } else if (details.primaryDelta < 0 && _currentIndex > 0) {
+    } else if (details.primaryDelta! < 0 && _currentIndex > 0) {
       this._atras = true;
     }
   }
@@ -294,7 +294,7 @@ class _CafesScreen2State extends State<CafesScreen2>
 
 class ItemCafe extends StatelessWidget {
   final Cafe cafe;
-  const ItemCafe({Key key, this.cafe}) : super(key: key);
+  const ItemCafe({Key? key, required this.cafe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -327,7 +327,7 @@ class ItemCafe extends StatelessWidget {
 
 class ItemPage extends StatelessWidget {
   final Cafe cafe;
-  const ItemPage({Key key, this.cafe}) : super(key: key);
+  const ItemPage({Key? key, required this.cafe}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

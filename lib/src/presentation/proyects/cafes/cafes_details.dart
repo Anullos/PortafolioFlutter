@@ -5,7 +5,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/cafes/widgets/custo
 
 class CafesDetails extends StatefulWidget {
   final Cafe cafe;
-  const CafesDetails({Key key, @required this.cafe}) : super(key: key);
+  const CafesDetails({Key? key, required this.cafe}) : super(key: key);
 
   @override
   _CafesDetailsState createState() => _CafesDetailsState();
@@ -13,9 +13,9 @@ class CafesDetails extends StatefulWidget {
 
 class _CafesDetailsState extends State<CafesDetails>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation animBtnAdd;
-  Animation animFooter;
+  late AnimationController _controller;
+  late Animation<double> animBtnAdd;
+  late Animation<double> animFooter;
 
   @override
   void initState() {

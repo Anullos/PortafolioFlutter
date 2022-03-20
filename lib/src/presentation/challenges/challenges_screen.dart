@@ -3,7 +3,7 @@ import 'package:portafolio_flutter/src/presentation/challenges/music_pro/music_s
 import 'package:portafolio_flutter/src/presentation/proyects/cafes/cafes_screen.dart';
 
 class ChallengesScreen extends StatelessWidget {
-  const ChallengesScreen({Key key}) : super(key: key);
+  const ChallengesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

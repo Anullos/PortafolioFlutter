@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:portafolio_flutter/src/presentation/proyects_animaciones/splash1/home1.dart';
 
 class Splash1Screen extends StatelessWidget {
-  const Splash1Screen({Key key}) : super(key: key);
+  const Splash1Screen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ class City {
   String image;
   List<CityReview> reviews;
 
-  City({this.name, this.image, this.reviews});
+  City({required this.name, required this.image, required this.reviews});
 }
 
 final List<City> ciudades = [
@@ -16,7 +16,7 @@ class CityReview {
   String name;
   String image;
 
-  CityReview({this.name, this.image});
+  CityReview({required this.name, required this.image});
 }
 
 final List<CityReview> reviews2 = [

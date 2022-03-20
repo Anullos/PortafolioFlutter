@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_model.dart';
 
 class MountainFoto extends StatelessWidget {
-  const MountainFoto({Key key, this.mountain}) : super(key: key);
+  const MountainFoto({Key? key, required this.mountain}) : super(key: key);
   final Mountain mountain;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Stack(
         children: [

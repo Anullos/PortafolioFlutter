@@ -3,7 +3,11 @@ class MusicModel {
   String title;
   String color;
 
-  MusicModel({this.image, this.title, this.color});
+  MusicModel({
+    required this.image,
+    required this.title,
+    required this.color,
+  });
 }
 
 final List<MusicModel> musics = [

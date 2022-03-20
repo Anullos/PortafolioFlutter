@@ -4,7 +4,8 @@ import 'package:portafolio_flutter/src/presentation/proyects/mountain/mountain_m
 class MountainDetails extends StatelessWidget {
   final Mountain mountain;
   final dynamic props;
-  const MountainDetails({Key key, this.mountain, this.props}) : super(key: key);
+  const MountainDetails({Key? key, required this.mountain, this.props})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

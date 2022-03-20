@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Cafe {
   String idCafe;
   String name;
@@ -8,10 +6,10 @@ class Cafe {
   bool isHot;
 
   Cafe({
-    @required this.idCafe,
-    @required this.name,
-    @required this.image,
-    @required this.price,
-    @required this.isHot,
+    required this.idCafe,
+    required this.name,
+    required this.image,
+    required this.price,
+    required this.isHot,
   });
 }

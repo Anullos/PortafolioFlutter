@@ -14,7 +14,7 @@ const backgroundGradient = LinearGradient(
 );
 
 class MultipleScreen extends StatefulWidget {
-  const MultipleScreen({Key key}) : super(key: key);
+  const MultipleScreen({Key? key}) : super(key: key);
 
   @override
   _MultipleScreenState createState() => _MultipleScreenState();
@@ -23,12 +23,12 @@ class MultipleScreen extends StatefulWidget {
 class _MultipleScreenState extends State<MultipleScreen>
     with SingleTickerProviderStateMixin {
   final _pageController = PageController(viewportFraction: 0.8);
-  AnimationController _animationController;
+  late AnimationController _animationController;
   double page = 0.0;
 
   void _listenScroll() {
     setState(() {
-      page = _pageController.page;
+      page = _pageController.page!;
     });
   }
 
@@ -136,7 +136,7 @@ class _MultipleScreenState extends State<MultipleScreen>
 
 class CustomTextField extends AnimatedWidget {
   final Animation<double> animation;
-  const CustomTextField(this.animation, {Key key})
+  const CustomTextField(this.animation, {Key? key})
       : super(key: key, listenable: animation);
 
   @override
@@ -170,13 +170,14 @@ class CustomTextField extends AnimatedWidget {
 class CityItem extends StatelessWidget {
   final City city;
   final VoidCallback onSwipe;
-  const CityItem({Key key, this.city, this.onSwipe}) : super(key: key);
+  const CityItem({Key? key, required this.city, required this.onSwipe})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onVerticalDragUpdate: (details) {
-        if (details.primaryDelta < -7) {
+        if (details.primaryDelta! < -7) {
           onSwipe();
         }
       },
@@ -206,7 +207,8 @@ class CityItem extends StatelessWidget {
 class CityWidget extends StatelessWidget {
   final City city;
   final EdgeInsets padding;
-  const CityWidget({Key key, this.city, this.padding = EdgeInsets.zero})
+  const CityWidget(
+      {Key? key, required this.city, this.padding = EdgeInsets.zero})
       : super(key: key);
 
   @override
@@ -267,7 +269,7 @@ class CityWidget extends StatelessWidget {
 class ReviewWidget extends StatelessWidget {
   final CityReview review;
 
-  const ReviewWidget({Key key, this.review}) : super(key: key);
+  const ReviewWidget({Key? key, required this.review}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

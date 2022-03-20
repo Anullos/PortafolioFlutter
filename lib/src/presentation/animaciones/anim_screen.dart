@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:portafolio_flutter/src/presentation/proyects_animaciones/hero_planiffai/home_plannifai.dart';
 import 'package:portafolio_flutter/src/presentation/proyects_animaciones/splash1/splash1.dart';
 
 class AnimacionesScreen extends StatelessWidget {
-  const AnimacionesScreen({Key key}) : super(key: key);
+  const AnimacionesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,8 @@ class AnimacionesScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => Splash1Screen()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => Splash1Screen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -34,6 +35,28 @@ class AnimacionesScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 300),
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: HomePlannifai(),
+                        );
+                      },
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    'Hero Plannifai',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

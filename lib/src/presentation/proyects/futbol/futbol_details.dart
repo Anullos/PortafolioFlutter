@@ -3,7 +3,7 @@ import 'package:portafolio_flutter/src/presentation/proyects/futbol/futbol_model
 
 class FutbolDetails extends StatelessWidget {
   final Balon balon;
-  const FutbolDetails({Key key, this.balon}) : super(key: key);
+  const FutbolDetails({Key? key, required this.balon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => CafesProvider()),
       ],
-      builder: (context, child) => child,
+      builder: (context, child) => child!,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Portafolio Anullos',
